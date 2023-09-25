@@ -1,0 +1,38 @@
+{
+  "name": "tnoodle-barcode-pdf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron .",
+    "serve": "cd src/view; npm start",
+    "build-all": "npm run build-html; npm run build-linux-x64; npm run build-linux-arm64; npm run build-win-x64; npm run build-win-arm64;",
+    "build-linux-x64": "electron-builder build --linux --x64",
+    "build-linux-arm64": "electron-builder build --linux --arm64",
+    "build-win-x64": "electron-builder build --win --x64",
+    "build-win-arm64": "electron-builder build --win --arm64",
+    "build-html": "cd src/view; rm -rf build; npm run build;",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd src/view; npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "muhammara": "^4.0.0"
+  },
+  "devDependencies": {
+    "electron": "^26.2.2",
+    "electron-builder": "^24.6.4"
+  },
+  "build": {
+    "appId": "ru.speedcubes.barcode-pass-pdf",
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+    "linux": {
+      "target": "AppImage"
+    },
+    "win": {
+      "target": "portable"
+    }
+  }
+}

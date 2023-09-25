@@ -1,0 +1,12 @@
+html, body, #root, .container {
+    background-color: var(--bs-gray-200);
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.btn-dice {
+    background-image: url("dice-6.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60%;
+}

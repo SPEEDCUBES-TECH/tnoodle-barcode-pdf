@@ -1,0 +1,37 @@
+SECRET SCRAMBLE SET PASSCODES
+Scrambles for barcode-pass-pdf example
+
+Make sure that only Delegates have access to this file.
+Give passcodes to scramblers when the corresponding
+groups begin (but not earlier). If you have to put
+someone else in charge of the passcodes temporarily,
+only give them the minimum amount of passcodes needed.
+
+2x2x2 Round 1: m7d74bff
+4x4x4 Round 1: 7pmqy4vj
+5x5x5 Round 1: 8jywch2p
+6x6x6 Round 1: 6dc36hkp
+3x3x3 Blindfolded Round 1: wtgnarjx
+3x3x3 One-Handed Round 1: isqzddh7
+Megaminx Round 1: s8iphd7z
+Skewb Round 1: tenq57nn
+4x4x4 Blindfolded Round 1: 5g4tx2ki
+3x3x3 Multiple Blindfolded Round 1 Attempt 1: ggd68qck
+3x3x3 Multiple Blindfolded Round 1 Attempt 2: yiybdzdg
+3x3x3 Multiple Blindfolded Round 1 Attempt 3: ttijpvcq
+5x5x5 Blindfolded Round 1: xjjx9hua
+Square-1 Round 1: if84rhzx
+Pyraminx Round 1: nkm4du9n
+Clock Round 1: 73w2u4hx
+7x7x7 Round 1: pj4aqfp6
+3x3x3 Round 1 Scramble Set A: 9m59u62u
+3x3x3 Round 1 Scramble Set B: fng3iggy
+3x3x3 Fewest Moves Round 1 Scramble Set A Attempt 1: rh7mss93
+3x3x3 Fewest Moves Round 1 Scramble Set A Attempt 2: h6dd8xzs
+3x3x3 Fewest Moves Round 1 Scramble Set A Attempt 3: qsnse5kh
+3x3x3 Fewest Moves Round 1 Scramble Set B Attempt 1: 2uckezdi
+3x3x3 Fewest Moves Round 1 Scramble Set B Attempt 2: d4czf6x2
+3x3x3 Fewest Moves Round 1 Scramble Set B Attempt 3: hjh28hus
+3x3x3 Fewest Moves Round 2 Attempt 1: 6ekjmz8h
+3x3x3 Fewest Moves Round 2 Attempt 2: h83e5jep
+3x3x3 Fewest Moves Round 2 Attempt 3: fx7xwz2c
