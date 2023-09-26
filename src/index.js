@@ -7,8 +7,9 @@ function createMainWindow() {
     width: app.isPackaged ? 600 : 1200,
     height: app.isPackaged ? 300 : 800,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
+      preload: path.join(__dirname, 'preload.js'),
+    },
+    icon: path.join(__dirname, '../lib/img/icon64.png')
   })
 
   window.setMenuBarVisibility(false);

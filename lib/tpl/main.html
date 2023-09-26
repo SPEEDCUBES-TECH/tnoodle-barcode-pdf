@@ -38,17 +38,23 @@
         }
 
         .card-header {
-            font-size: 4.5 cqw;
+            /* @formatter:off */
+            font-size: 4.5cqw;
+            /* @formatter:on */
         }
 
         .card-footer {
-            font-size: 4.5 cqw;
+            /* @formatter:off */
+            font-size: 4.5cqw;
+            /* @formatter:on */
         }
 
 
         .card-barcode {
             font-family: Barcode, sans-serif;
-            font-size: 30 cqw;
+            /* @formatter:off */
+            font-size: 30cqw;
+            /* @formatter:on */
             margin-top: 0px;
             margin-bottom: -30px;
             padding: 0 5px;
@@ -88,8 +94,26 @@
         /* phone styles */
         .phone .toc {
             text-align: left;
-            font-size: 0.2em;
             page-break-after: always;
+        }
+
+        .phone .toc table, table td, table tr {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .phone .toc table {
+            margin-bottom: 3vh;
+            width: 100%;
+            text-align: center;
+            /* @formatter:off */
+            font-size: 7cqw;
+            /* @formatter:on */
+            page-break-inside: avoid;
+        }
+
+        .toc .attemps._1 {
+            display: none;
         }
 
         .phone .card {
@@ -97,6 +121,12 @@
             height: 90%;
             width: auto;
             page-break-after: always;
+        }
+
+        .phone .card-barcode {
+            /* @formatter:off */
+            font-size: 30cqh;
+            /* @formatter:on */
         }
 
     </style>
@@ -111,34 +141,32 @@
 
     out += `
       <div class="toc" id="_toc">
-        <ul>
+
         ${Object.keys(data).map((dist, i) => `
-          <li>
-            ${dist}
-            <ul>
+        <table>
+          <thead></thead>
+          <tbody>
+            <tr><td class="dist" colspan="42">${dist}</td></tr>
             ${Object.keys(data[dist]).map((round, k) => `
-              <li>
-                round - ${round}
-                <ul>
+              <tr><td class="round" colspan="42">Round ${round}</td></tr>
+              <tr>
                 ${Object.keys(data[dist][round]).map((set, j) => `
-                  <li>
-                    set - ${set}
-                    <ul>
-                    ${Object.keys(data[dist][round][set]).map((att, m) => `
-                      <li>
-                        <a href="#_${i}${k}${j}${m}">attempt - ${att}</a>
-                      </li>
-                    `).join('')}
-                    </ul>
-                  </li>
+                  <td class="set"><a href="#_${i}${k}${j}0">${set}</a></td>
                 `).join('')}
-                </ul>
-              </li>
+              </tr>
+              <tr>
+                ${Object.keys(data[dist][round]).map((set, j) => `
+                  <td class="attemps _${Object.keys(data[dist][round][set]).length}">
+                    ${Object.keys(data[dist][round][set]).map((att, m) => `
+                      <div><a href="#_${i}${k}${j}${m}">${att}</a></div>
+                    `).join('')}
+                    </td>
+                `).join('')}
+              </tr>
             `).join('')}
-            </ul>
-          </li>
+          </tbody>
+        </table>
         `).join('')}
-        </ul>
       </div>
       `;
 
