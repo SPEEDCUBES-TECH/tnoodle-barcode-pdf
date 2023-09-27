@@ -9,7 +9,7 @@ function createMainWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
-    icon: path.join(__dirname, '../lib/img/icon64.png')
+    icon: path.join(__dirname, '../lib/img/icon/icon64.png')
   })
 
   window.setMenuBarVisibility(false);
