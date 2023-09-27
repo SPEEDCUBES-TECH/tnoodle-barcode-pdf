@@ -10,7 +10,7 @@ function createMainWindow() {
       preload: path.join(__dirname, 'preload.js'),
     },
     resizable: !app.isPackaged,
-    icon: path.join(__dirname, '../lib/img/icon/icon64.png')
+    icon: path.join(__dirname, '../lib/img/icon/icon.png')
   })
 
   window.setMenuBarVisibility(false);
