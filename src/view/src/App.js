@@ -47,7 +47,7 @@ export default function App() {
     el.click();
   }
 
-  return (
+  return (<>
     <div className="container d-flex flex-column align-content-center justify-content-center">
       <div className="mb-3">
         <input className="form-control" type="file" accept="text/plain" onChange={readFile}/>
@@ -68,7 +68,7 @@ export default function App() {
         generate
       </button>
       <hr/>
-      <div className="mb-3 row">
+      <div className="row">
         <div className="col d-flex">
           <button
             className={`btn flex-grow-1 btn-outline-${filePdfMobile ? "primary" : "secondary"}`}
@@ -87,6 +87,14 @@ export default function App() {
         </div>
       </div>
     </div>
-  );
-
+    <div className="container footer">
+      <div className="row">
+        <div className="col mb-3 d-flex justify-content-between font-monospace">
+          <a href="https://idleness.ru" target="_blank" style={{opacity: 0}}> Idleness.ru </a>
+          <a href="https://github.com/SPEEDCUBES-TECH/tnoodle-barcode-pdf" target="_blank"
+             className="text-secondary text-opacity-50">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </>);
 }
