@@ -13,13 +13,13 @@
     "build-win-arm64": "electron-builder build --win --arm64",
     "build-html": "cd src/view; rm -rf build; npm run build;",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd src/view; npm install"
+    "postinstall": "node lib/etc/postinstall.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "muhammara": "^4.0.0"
+    "pdf-lib": "github:PhakornKiong/pdf-lib#dev/DocEncrypt"
   },
   "devDependencies": {
     "electron": "^26.2.2",

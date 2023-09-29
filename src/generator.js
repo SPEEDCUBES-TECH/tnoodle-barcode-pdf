@@ -1,8 +1,8 @@
 const fs = require('fs/promises');
 const os = require('os');
 const path = require('path');
-const pdfDoc = require("muhammara").Recipe;
 const crypto = require("crypto");
+const PDFDoc = require("pdf-lib").PDFDocument;
 
 /**
  * @param BrowserWindow {BrowserWindow}
@@ -55,18 +55,14 @@ async function generatePdf(BrowserWindow, html, pass) {
   window.close();
 
   if (pass) {
-    // muhammara cant encrypt from Buffer
-    const file = tmpFile('pdf');
-    await fs.writeFile(file, pdf);
-    pdf = new pdfDoc(file, file);
-    await pdf.encrypt({
+    pdf = await PDFDoc.load(pdf);
+    pdf.encrypt({
       userPassword: pass,
       ownerPassword: pass,
-      userProtectionFlag: 4,
-    }).endPDF();
+      permissions: {modifying: true},
+    });
 
-    pdf = await fs.readFile(file);
-    await fs.unlink(file);
+    pdf = await pdf.save({useObjectStreams: false});
   }
 
   return pdf;
