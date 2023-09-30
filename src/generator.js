@@ -1,20 +1,19 @@
 const fs = require('fs/promises');
-const os = require('os');
 const path = require('path');
-const crypto = require("crypto");
 const PDFDoc = require("pdf-lib").PDFDocument;
+const QRCode = require("qrcode");
 
 /**
  * @param BrowserWindow {BrowserWindow}
  * @param file {string}
- * @param password {string|null}
- * @returns {Promise<void>}
+ * @param opts {object}
+ * @returns {Promise<Awaited<Buffer>[]>}
  */
-async function generate(BrowserWindow, file, password) {
-  const data = parseData(file);
+async function generate(BrowserWindow, file, opts = {}) {
+  const data = await prepareData(file, opts);
   return await Promise.all([
-    generateHtml('phone', data).then(html => generatePdf(BrowserWindow, html, password)),
-    generateHtml('print', data).then(html => generatePdf(BrowserWindow, html, password)),
+    generateHtml('phone', data, opts).then(html => generatePdf(BrowserWindow, html, opts)),
+    generateHtml('print', data, opts).then(html => generatePdf(BrowserWindow, html, opts)),
   ]);
 }
 
@@ -37,7 +36,7 @@ async function generateHtml(type, data) {
     .replace(/\$data/, JSON.stringify(data));
 }
 
-async function generatePdf(BrowserWindow, html, pass) {
+async function generatePdf(BrowserWindow, html, opts) {
   let window = new BrowserWindow({show: false});
 
   await window.loadFile(path.join(__dirname, '../lib/tpl/blank.html'));
@@ -54,11 +53,11 @@ async function generatePdf(BrowserWindow, html, pass) {
 
   window.close();
 
-  if (pass) {
+  if (opts.password) {
     pdf = await PDFDoc.load(pdf);
-    pdf.encrypt({
-      userPassword: pass,
-      ownerPassword: pass,
+    await pdf.encrypt({
+      userPassword: opts.password,
+      ownerPassword: opts.password,
       permissions: {modifying: true},
     });
 
@@ -69,8 +68,17 @@ async function generatePdf(BrowserWindow, html, pass) {
 }
 
 
-function parseData(file) {
-  return file
+async function prepareData(file, opts) {
+  let result = {
+    full: null,
+    qrcodes: {}
+  };
+
+  const pending = [];
+
+  opts.qrcodes = true;
+
+  result.full = file
     .split('\n').filter(row => row.match(/.+ Round \d+.*: /))
     .reduce((out, row) => {
       // 3x3x3 Round 1: ggd68qck -> 3x3x3 Round 1 Scramble Set A: ggd68qck
@@ -84,8 +92,17 @@ function parseData(file) {
       row = row.match(/(.+) Round (.+) Scramble Set (.+) Attempt (.+): (\S+)/);
 
       deepAssign(out, row.splice(1, 4), row[1]);
+
+      if (opts.codeType === "qrcode")
+        QRCode.toString(row[1], {type: "svg", errorCorrectionLevel: "M", margin: 0})
+          .then(qr => result.qrcodes[row[1]] = qr)
+
       return out;
     }, {});
+
+  await Promise.all(pending);
+
+  return result;
 }
 
 
@@ -97,10 +114,6 @@ function deepAssign(base, names, value) {
   }
 
   base[lastName] = value;
-}
-
-function tmpFile(ext) {
-  return path.join(os.tmpdir(), `tmp_${crypto.randomBytes(16).toString("hex")}.${ext}`);
 }
 
 module.exports = {

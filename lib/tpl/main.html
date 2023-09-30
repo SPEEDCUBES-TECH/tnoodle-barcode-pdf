@@ -30,22 +30,48 @@
         }
 
         .card {
-            container-type: inline-size;
             display: inline-block;
             margin: 0 auto;
             border: 1px solid;
-            width: 70%;
+            width: 90%;
+        }
+
+        .card-qrcode {
+            /*height: 20cqh;*/
+            height: 12vh;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .card-qrcode > * {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-qrcode:empty {
+            display: none;
+        }
+
+        .card-qrcode:empty + .card-barcode,
+        .back-to-top + .card-barcode {
+            display: block;
+        }
+
+        .card-barcode {
+            display: none;
         }
 
         .card-header {
             /* @formatter:off */
-            font-size: 4.5cqw;
+            font-size: 3.5vw;
             /* @formatter:on */
+            white-space: nowrap;
         }
 
         .card-footer {
             /* @formatter:off */
-            font-size: 4.5cqw;
+            font-size: 3.5vw;
             /* @formatter:on */
         }
 
@@ -84,11 +110,16 @@
         }
 
         .print .barcodes .card {
-            margin: 12% auto;
+            margin: 11% auto;
         }
 
         .print .barcodes .card:nth-child(6n) {
+            margin-bottom: 0;
             page-break-after: always;
+        }
+
+        .print .barcodes .card-barcode {
+            font-size: 23vmin;
         }
 
         /* phone styles */
@@ -117,16 +148,29 @@
         }
 
         .phone .card {
-            writing-mode: tb-rl;
-            height: 90%;
-            width: auto;
+            height: 90vh;
+            width: 90%;
+
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+
             page-break-after: always;
         }
 
+        .phone .card .card-qrcode {
+            flex-grow: 1;
+        }
+
         .phone .card-barcode {
+            writing-mode: tb-rl;
+            margin-bottom: 0;
+
             /* @formatter:off */
             font-size: 30cqh;
             /* @formatter:on */
+
         }
 
     </style>
@@ -136,28 +180,30 @@
 
   document.body.innerHTML = generateBody($data);
 
-  function generateBody(data) {
+  function generateBody({qrcodes, full}) {
     let out = "";
+
+    console.log(document.body.innerHTML);
 
     out += `
       <div class="toc" id="_toc">
 
-        ${Object.keys(data).map((dist, i) => `
+        ${Object.keys(full).map((dist, i) => `
         <table>
           <thead></thead>
           <tbody>
             <tr><td class="dist" colspan="42">${dist}</td></tr>
-            ${Object.keys(data[dist]).map((round, k) => `
+            ${Object.keys(full[dist]).map((round, k) => `
               <tr><td class="round" colspan="42">Round ${round}</td></tr>
               <tr>
-                ${Object.keys(data[dist][round]).map((set, j) => `
+                ${Object.keys(full[dist][round]).map((set, j) => `
                   <td class="set"><a href="#_${i}${k}${j}0">${set}</a></td>
                 `).join('')}
               </tr>
               <tr>
-                ${Object.keys(data[dist][round]).map((set, j) => `
-                  <td class="attemps _${Object.keys(data[dist][round][set]).length}">
-                    ${Object.keys(data[dist][round][set]).map((att, m) => `
+                ${Object.keys(full[dist][round]).map((set, j) => `
+                  <td class="attemps _${Object.keys(full[dist][round][set]).length}">
+                    ${Object.keys(full[dist][round][set]).map((att, m) => `
                       <div><a href="#_${i}${k}${j}${m}">${att}</a></div>
                     `).join('')}
                     </td>
@@ -172,20 +218,21 @@
 
     out += `
       <div class="barcodes">
-        ${Object.keys(data).map((dist, i) => `
-          ${Object.keys(data[dist]).map((round, k) => `
-            ${Object.keys(data[dist][round]).map((set, j) => `
-              ${Object.keys(data[dist][round][set]).map((attempt, m) => `
-                <a class="back-to-top" href="#_toc">Back to top</a>
-                <div class="card" id="_${i}${k}${j}${m}">
+        ${Object.keys(full).map((dist, i) => `
+          ${Object.keys(full[dist]).map((round, k) => `
+            ${Object.keys(full[dist][round]).map((set, j) => `
+              ${Object.keys(full[dist][round][set]).map((attempt, m) => `
+                <a class="back-to-top" href="#_toc" id="_${i}${k}${j}${m}">Back to top</a>
+                <div class="card">
                   <div class="card-header">
                       <span class="_dist">${dist}</span>,
                       <span class="_round">${round}</span>,
                       <span class="_set">${set}</span>
                       <span class="_attempt">${attempt}</span>
                   </div>
-                  <div class="card-barcode">${data[dist][round][set][attempt]}</div>
-                  <div class="card-footer">${data[dist][round][set][attempt]}</div>
+                  <div class="card-qrcode">${qrcodes[full[dist][round][set][attempt]] || ""}</div>
+                  <div class="card-barcode">${full[dist][round][set][attempt]}</div>
+                  <div class="card-footer">${full[dist][round][set][attempt]}</div>
                 </div>
               `).join('')}
             `).join('')}

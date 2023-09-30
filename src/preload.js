@@ -9,7 +9,7 @@ const {contextBridge, ipcRenderer} = require('electron');
 
 window.addEventListener('DOMContentLoaded', () => {
   contextBridge.exposeInMainWorld('barcode', {
-    generate: (file, password) => ipcRenderer.invoke('generate', file, password),
+    generate: (file, opts) => ipcRenderer.invoke('generate', file, opts),
   })
 });
 

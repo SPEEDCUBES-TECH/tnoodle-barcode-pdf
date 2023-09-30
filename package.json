@@ -19,7 +19,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pdf-lib": "github:PhakornKiong/pdf-lib#dev/DocEncrypt"
+    "pdf-lib": "github:PhakornKiong/pdf-lib#dev/DocEncrypt",
+    "qrcode": "^1.5.3"
   },
   "devDependencies": {
     "electron": "^26.2.2",
