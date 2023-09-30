@@ -36,7 +36,11 @@ export default function App() {
   }
 
   function genRndPass() {
-    setPassword(btoa(Math.random().toString()).substring(5, 15))
+    setPassword(
+      btoa(Math.random().toString())
+        .replace(/[jiIl10ODQ8Bvu]/g, "")
+        .substring(5, 15)
+    )
   }
 
   function saveAs(content, extPrefix) {
