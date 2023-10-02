@@ -1,8 +1,10 @@
 {
   "name": "tnoodle-barcode-pdf",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.3.0",
+  "description": "program for generating encrypted PDF with barcodes from tnoodle password file",
   "main": "src/index.js",
+  "homepage": "https://github.com/SPEEDCUBES-TECH/tnoodle-barcode-pdf",
+  "repository": "github:SPEEDCUBES-TECH/tnoodle-barcode-pdf",
   "scripts": {
     "start": "electron .",
     "serve": "cd src/view; npm start",
