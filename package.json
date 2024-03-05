@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "electron": "^26.2.2",
-    "electron-builder": "^24.6.4"
+    "electron-builder": "^24.13.3"
   },
   "build": {
     "appId": "ru.speedcubes.barcode-pass-pdf",
