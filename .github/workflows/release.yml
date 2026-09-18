@@ -1,0 +1,75 @@
+name: release
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux
+            arch: x64
+            ext: AppImage
+          - os: ubuntu-latest
+            target: linux
+            arch: arm64
+            ext: AppImage
+          - os: windows-latest
+            target: win
+            arch: x64
+            ext: exe
+          - os: windows-latest
+            target: win
+            arch: arm64
+            ext: exe
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # the tag must match the version in package.json,
+      # otherwise artifacts will carry the old version
+      - name: verify version matches tag
+        shell: bash
+        run: |
+          pkg_version="v$(node -p "require('./package.json').version")"
+          if [ "$pkg_version" != "$GITHUB_REF_NAME" ]; then
+            echo "tag $GITHUB_REF_NAME != package.json $pkg_version"
+            exit 1
+          fi
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/electron
+            ~/.cache/electron-builder
+          key: ${{ matrix.os }}-electron-${{ hashFiles('package-lock.json') }}
+
+      - run: npm install
+
+      - run: npm run build-html
+
+      - run: npx electron-builder build --${{ matrix.target }} --${{ matrix.arch }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.target }}-${{ matrix.arch }}
+          path: dist/tnoodle-barcode-pdf-*.${{ matrix.ext }}
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: tnoodle-barcode-pdf-*
