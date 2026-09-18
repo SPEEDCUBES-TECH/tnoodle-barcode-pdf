@@ -54,7 +54,7 @@ jobs:
 
       - run: npm run build-html
 
-      - run: npx electron-builder build --${{ matrix.target }} --${{ matrix.arch }}
+      - run: npx electron-builder build --${{ matrix.target }} --${{ matrix.arch }} --publish never
 
       - uses: actions/upload-artifact@v4
         with:
