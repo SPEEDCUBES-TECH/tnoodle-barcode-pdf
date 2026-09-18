@@ -7,26 +7,29 @@
   "repository": "github:SPEEDCUBES-TECH/tnoodle-barcode-pdf",
   "scripts": {
     "start": "electron .",
-    "serve": "cd src/view; npm start",
-    "build-all": "npm run build-html; npm run build-linux-x64; npm run build-linux-arm64; npm run build-win-x64; npm run build-win-arm64;",
+    "serve": "npm -w src/view start",
+    "build-all": "npm run build-html; npm run build-linux-x64; npm run build-linux-arm64; npm run build-win-x64; npm run build-win-arm64",
     "build-linux-x64": "electron-builder build --linux --x64",
     "build-linux-arm64": "electron-builder build --linux --arm64",
     "build-win-x64": "electron-builder build --win --x64",
     "build-win-arm64": "electron-builder build --win --arm64",
-    "build-html": "cd src/view; rm -rf build; npm run build;",
+    "build-html": "npm -w src/view run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "node lib/etc/postinstall.js"
   },
+  "workspaces": [
+    "src/view"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "pdf-lib": "github:PhakornKiong/pdf-lib#dev/DocEncrypt",
-    "qrcode": "^1.5.3"
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
-    "electron": "^26.2.2",
-    "electron-builder": "^24.13.3"
+    "electron": "^44.4.2",
+    "electron-builder": "^26.15.3"
   },
   "build": {
     "appId": "ru.speedcubes.barcode-pass-pdf",
